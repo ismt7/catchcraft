@@ -1,0 +1,12 @@
+{
+  "git.branchProtection": ["main"],
+  "git.branchPrefix": "feature-",
+  "git.branchRandomName.enable": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "file": ".vscode/copilot-commit-message-instructions.md"
+    }
+  ]
+}
