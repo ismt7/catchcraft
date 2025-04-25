@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import {
   Inter,
   Roboto,
@@ -10,11 +10,17 @@ import {
   Zen_Kaku_Gothic_New,
 } from "next/font/google";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const inter = Inter({ subsets: ["latin"] });
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const roboto = Roboto({ subsets: ["latin"] });
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const openSans = Open_Sans({ subsets: ["latin"] });
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const notoSansJP = Noto_Sans_JP({ subsets: ["latin"] });
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const delaGothicOne = Dela_Gothic_One({ subsets: ["latin"], weight: "400" });
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const zenKakuGothicNew = Zen_Kaku_Gothic_New({
   subsets: ["latin"],
   weight: "400",
@@ -66,6 +72,16 @@ const drawVerticalCenterLine = (
   ctx.restore();
 };
 
+interface TextLayer {
+  id: number;
+  text: string;
+  x: number;
+  y: number;
+  fontSize: number;
+  fontFamily?: string;
+  fontWeight?: string;
+}
+
 export default function Catchcraft() {
   const [backgroundImage, setBackgroundImage] =
     useState<HTMLImageElement | null>(null);
@@ -74,7 +90,7 @@ export default function Catchcraft() {
   const [isMoveMode, setIsMoveMode] = useState(false); // 移動モードの状態
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const redrawCanvas = () => {
+  const redrawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
 
@@ -114,7 +130,7 @@ export default function Catchcraft() {
         });
       }
     }
-  };
+  }, [backgroundImage, textLayer]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -252,7 +268,7 @@ export default function Catchcraft() {
 
   useEffect(() => {
     redrawCanvas();
-  }, [backgroundImage, textLayer]);
+  }, [backgroundImage, textLayer, redrawCanvas]);
 
   return (
     <div
