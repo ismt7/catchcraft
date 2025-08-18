@@ -256,7 +256,11 @@ export default function Catchcraft() {
 
         // ダウンロード処理
         const link = document.createElement("a");
-        link.download = "catchcraft-image.png";
+        // ファイル名に ISO タイムスタンプを使い、ファイル名に使えない文字を置換して被りを避ける
+        const filename = `eyecatch-${new Date()
+          .toISOString()
+          .replace(/[:.]/g, "-")}.png`;
+        link.download = filename;
         link.href = canvas.toDataURL("image/png");
         link.click();
 
